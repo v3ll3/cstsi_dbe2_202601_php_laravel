@@ -1,3 +1,4 @@
+name: 'dbe2_202601_app_laravel'
 services:
     laravel.test:
         build:
@@ -48,6 +49,17 @@ services:
                 - '--innodb_initialized'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin/phpmyadmin:latest'
+        ports:
+          - '${FORWARDMYADMIN_PORT -8090}:80'
+        environment:
+            PMA_HOST: 'mariadb'
+        networks:
+            - sail
+        depends_on:
+            - mariadb
+
 networks:
     sail:
         driver: bridge
