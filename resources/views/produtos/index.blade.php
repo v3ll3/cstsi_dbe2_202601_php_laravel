@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Produtos</h1>
+    <a href="/produto" style="display: inline">&#43;&nbsp;Novo Produto</a>
     @if ($produtos->count()>0)
     <table>
         <thead>
@@ -22,7 +23,7 @@
         <tbody>
             @foreach($produtos as $produto)
             <tr>
-                <td>{{$produto->id}}</td>
+                <td><a href="/produtos/{{$produto->id}}">{{$produto->id}}</a></td>
                 <td>{{$produto->nome}}</td>
                 <td>{{$produto->qtd_estoque}}</td>
                 <td>{{$produto->preco}}</td>
