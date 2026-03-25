@@ -38,4 +38,34 @@ class ProdutoController extends Controller
     {
         return view('produtos.create');
     }
+
+
+    public function update(Request $request, $id)
+    {
+        $novoProduto = $request->all();
+
+        $novoProduto['importado'] = $request->has('importado');
+
+        // dd($novoProduto);
+        if(Produto::findOrFail($id)->update($novoProduto)){
+            return redirect('/produtos');
+        }
+       dd("Erro ao criar atualizar!");
+    }
+
+    public function edit($id)
+    {
+
+        $produto = Produto::findOrFail($id);
+        // dd($produto);
+        return view('produtos.edit', ['produto' => $produto]);
+    }
+
+     public function delete($id)
+    {
+        if(Produto::destroy($id)){
+            return redirect('/produtos');
+        }
+       dd("Erro ao excluir produto!");
+    }
 }
