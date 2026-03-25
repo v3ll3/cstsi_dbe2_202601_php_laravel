@@ -18,6 +18,7 @@
                 <th>qtd_estoque</th>
                 <th>preco</th>
                 <th>Importado</th>
+                <th>Ação</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,10 @@
                 <td>{{$produto->qtd_estoque}}</td>
                 <td>{{$produto->preco}}</td>
                 <td>{{($produto->importado)?'Sim':'Não'}}</td>
+                <td>
+                    <a href="/produto/{{$produto->id}}/edit">&#x270E;</a>
+                    <a href="/produto/{{$produto->id}}/delete">&#128465;</a>
+                </td>
             </tr>
             @endforeach
         </tbody>
