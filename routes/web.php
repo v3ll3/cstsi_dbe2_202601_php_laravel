@@ -13,3 +13,6 @@ Route::get('/ola/{name}', [HomeController::class,'index']);
 Route::get('/users', [HomeController::class,'list']);
 
 Route::get('/produtos', [ProdutoController::class,'index']);
+Route::get('/produtos/{id}', [ProdutoController::class,'show']);
+Route::get('/produto', [ProdutoController::class,'create']);
+Route::post('/produto', [ProdutoController::class,'store']);
