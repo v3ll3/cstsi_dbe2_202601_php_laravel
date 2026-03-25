@@ -22,7 +22,7 @@
             @foreach($userList as $user)
             <tr>
                 <td>{{$user->id}}</td>
-                <td>{{$user->nome}}</td>
+                <td>{{$user->name}}</td>
                 <td>{{$user->surname}}</td>
                 <td>{{$user->email}}</td>
             </tr>

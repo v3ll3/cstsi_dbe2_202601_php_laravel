@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function list() {
 
         $userList  = User::all();
-       // dd($userList);
+       dd($userList);
        return View::make('user_list',compact('userList'));
     }
 }
