@@ -21,3 +21,4 @@ Route::get('/produto/{id}/edit', [ProdutoController::class,'edit']);
 Route::post('/produto/{id}/update', [ProdutoController::class,'update'])->name('produto.update');
 
 Route::get('/produto/{id}/delete',[ProdutoController::class,'delete']);
+Route::post('/produto/{id}/remove', [ProdutoController::class,'remove'])->name('produto.remove');
