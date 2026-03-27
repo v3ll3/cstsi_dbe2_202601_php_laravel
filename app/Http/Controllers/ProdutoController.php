@@ -63,6 +63,12 @@ class ProdutoController extends Controller
 
      public function delete($id)
     {
+        $produto = Produto::findOrFail($id);
+        return view('produtos.delete', compact('produto'));
+    }
+
+    public function remove($id)
+    {
         if(Produto::destroy($id)){
             return redirect('/produtos');
         }
