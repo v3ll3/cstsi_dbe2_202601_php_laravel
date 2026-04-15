@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\Api\FornecedorController as ApiFornecedorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
@@ -13,17 +15,20 @@ Route::get('/ola/{name}', [HomeController::class, 'index']);
 Route::get('/users', [HomeController::class, 'list']);
 
 
+Route::controller(ProdutoController::class)->group(function () {
+    Route::prefix('produtos')->group(function () {
+        Route::get('/',  'index');
+        Route::get('/{produto}',  'show');
+    });
 
-Route::prefix('produtos')->group(function () {
-    Route::get('/', [ProdutoController::class, 'index']);
-    Route::get('/{id}', [ProdutoController::class, 'show']);
-});
-
-Route::prefix('produto')->group(function () {
-    Route::get('/', [ProdutoController::class, 'create']);
-    Route::post('/', [ProdutoController::class, 'store']);
-    Route::get('/{id}/edit', [ProdutoController::class, 'edit']);
-    Route::post('/{id}/update', [ProdutoController::class, 'update'])->name('produto.update');
-    Route::get('/{id}/delete', [ProdutoController::class, 'delete']);
-    Route::post('/{id}/delete', [ProdutoController::class, 'remove'])->name('produto.remove');
+    Route::middleware('auth')->group(function() {
+        Route::prefix('produto')->group(function () {
+                Route::get('/',  'create');
+                Route::post('/',  'store');
+                Route::get('/{id}/edit',  'edit');
+                Route::post('/{id}/update',  'update')->name('produto.update');
+                Route::get('/{id}/delete',  'delete');
+                Route::post('/{id}/delete',  'remove')->name('produto.remove');
+            });
+    });
 });
