@@ -9,6 +9,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('fornecedores', FornecedorController::class)
-    ->parameters(["fornecedores" => 'fornecedor']);
+Route::prefix('v1')->group(function () {
+    Route::apiResource('produtos', ProdutoController::class);
 
+    Route::apiResource('fornecedores', FornecedorController::class)
+        ->parameters(["fornecedores" => 'fornecedor']);
+});
