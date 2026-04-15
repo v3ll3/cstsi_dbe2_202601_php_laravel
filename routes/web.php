@@ -19,11 +19,11 @@ Route::prefix('produtos')->group(function () {
     Route::get('/{id}', [ProdutoController::class, 'show']);
 });
 
-Route::prefix('produtos')->group(function () {
+Route::prefix('produto')->group(function () {
     Route::get('/', [ProdutoController::class, 'create']);
     Route::post('/', [ProdutoController::class, 'store']);
     Route::get('/{id}/edit', [ProdutoController::class, 'edit']);
     Route::post('/{id}/update', [ProdutoController::class, 'update'])->name('produto.update');
     Route::get('/{id}/delete', [ProdutoController::class, 'delete']);
-    Route::post('/{id}/remove', [ProdutoController::class, 'remove'])->name('produto.remove');
+    Route::post('/{id}/delete', [ProdutoController::class, 'remove'])->name('produto.remove');
 });
