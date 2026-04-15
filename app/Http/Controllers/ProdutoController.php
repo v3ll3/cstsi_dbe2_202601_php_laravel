@@ -16,10 +16,10 @@ class ProdutoController extends Controller
         return view('produtos.index', ['produtos' => $listaProdutos]);
     }
 
-    public function show($id)
+    public function show(Produto $produto)
     {
         // $produto = Produto::findOrFail($id);//Gera exceção e a página de 404
-        $produto = Produto::find($id);
+        // $produto = Produto::find($id);
         return view('produtos.show', ['produto' => $produto]);
     }
 
