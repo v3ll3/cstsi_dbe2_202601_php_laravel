@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\FornecedorController;
-use App\Http\Controllers\Api\FornecedorController as ApiFornecedorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
