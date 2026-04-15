@@ -32,3 +32,9 @@ Route::controller(ProdutoController::class)->group(function () {
             });
     });
 });
+
+
+//Apenas para o middleware auth
+Route::get('login',function ()  {
+    echo "Realize o Login!!!";
+})->name('login');
