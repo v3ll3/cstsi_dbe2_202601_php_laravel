@@ -21,7 +21,7 @@ Route::controller(ProdutoController::class)->group(function () {
         Route::get('/{produto}',  'show');
     });
 
-    Route::middleware('auth')->group(function() {
+    // Route::middleware('auth')->group(function() {
         Route::prefix('produto')->group(function () {
                 Route::get('/',  'create');
                 Route::post('/',  'store');
@@ -30,11 +30,14 @@ Route::controller(ProdutoController::class)->group(function () {
                 Route::get('/{id}/delete',  'delete');
                 Route::post('/{id}/delete',  'remove')->name('produto.remove');
             });
-    });
+    // });
 });
 
 
 //Apenas para o middleware auth
-Route::get('login',function ()  {
-    echo "Realize o Login!!!";
-})->name('login');
+// Route::get('login',function ()  {
+//     echo "Realize o Login!!!";
+// })->name('login');
+
+Route::resource('fornecedores',FornecedorController::class)
+    ->parameters(["fornecedores"=>'fornecedor']);
