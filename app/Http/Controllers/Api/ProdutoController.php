@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProdutoStoreRequest;
 use App\Http\Resources\ProdutoResource;
 use App\Http\Resources\ProdutoResourceCollection;
 use App\Models\Produto;
@@ -32,37 +33,14 @@ class ProdutoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProdutoStoreRequest $request)
     {
         try {
-            $request->validate([
-                'nome' => "required",
-                'descricao' => "required",
-                'qtd_estoque' => "required | integer",
-                'preco' => "required | numeric",
-                'importado' => "nullable"
-
-            ]);
-            $novoProduto = $request->all();
-            $novoProduto['importado'] = $request->has('importado');
-
-            $produto = Produto::create($novoProduto);
+            $produto = Produto::create($request->validated());
             return new ProdutoResource($produto)
                     ->additional(["message"=>'Produto criado com sucesso!!'])
                     ->response()
                     ->setStatusCode(201,"Produto Criado.");
-        } catch (ValidationException $error) {
-            return response()->json(
-                [
-                    "data" => [
-                        "error" => true,
-                        "message" => $error->getMessage(),
-                        "trace" => $error->getTrace()
-                    ]
-                ],
-                $error->status
-            );
-            // throw $error;
         } catch (\Exception $error) {
             $httpStatus = 500;
             $message = "Não foi possível criar o Produto!!! Tente mais tarde.";
