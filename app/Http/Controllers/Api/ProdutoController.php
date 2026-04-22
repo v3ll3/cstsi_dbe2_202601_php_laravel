@@ -34,7 +34,6 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-
         try {
             $request->validate([
                 'nome' => "required",
@@ -53,18 +52,33 @@ class ProdutoController extends Controller
                     'msg' => 'Produto criado !!!'
                 ]
             ], 201);
-        } catch (\Exception $error) {
-            $httpStatus = 500;
-            if ($error instanceof ValidationException) $httpStatus = 422;
+        } catch (ValidationException $error) {
             return response()->json(
                 [
                     "data" => [
                         "error" => true,
-                        "message" => $error->getMessage()
+                        "message" => $error->getMessage(),
+                        "trace" => $error->getTrace()
                     ]
                 ],
-                $httpStatus
+                $error->status
             );
+            // throw $error;
+        } catch (\Exception $error) {
+            $httpStatus = 500;
+            $message = "Não foi possível criar o Produto!!! Tente mais tarde.";
+            $response = [
+                "data" => [
+                    "message" => $message,
+                    "error" => true,
+                ]
+            ];
+            if (env("APP_DEBUG"))
+                $response['data'] = [
+                    "message" => $error->getMessage(),
+                    "trace" => $error->getTrace()
+                ];
+            return  response()->json($response, $httpStatus);
         }
     }
 
