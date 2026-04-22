@@ -7,6 +7,7 @@ use App\Http\Resources\ProdutoResource;
 use App\Http\Resources\ProdutoResourceCollection;
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProdutoController extends Controller
 {
@@ -28,20 +29,42 @@ class ProdutoController extends Controller
         return new ProdutoResource($produto);
     }
 
-     /**
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $novoProduto = $request->all();
-        $novoProduto['importado'] = $request->has('importado');
 
-        if(Produto::create($novoProduto)){
+        try {
+            $request->validate([
+                'nome' => "required",
+                'descricao' => "required",
+                'qtd_estoque' => "required | integer",
+                'preco' => "required | numeric",
+                'importado' => "nullable"
+
+            ]);
+            $novoProduto = $request->all();
+            $novoProduto['importado'] = $request->has('importado');
+
+            return response()->json([
+                "data" => [
+                    'produto' => Produto::create($novoProduto),
+                    'msg' => 'Produto criado !!!'
+                ]
+            ], 201);
+        } catch (\Exception $error) {
+            $httpStatus = 500;
+            if ($error instanceof ValidationException) $httpStatus = 422;
             return response()->json(
                 [
-                    "data"=>"Produto criado com sucesso!!!",
-                    "success"=>true
-                ],201);
+                    "data" => [
+                        "error" => true,
+                        "message" => $error->getMessage()
+                    ]
+                ],
+                $httpStatus
+            );
         }
     }
 
