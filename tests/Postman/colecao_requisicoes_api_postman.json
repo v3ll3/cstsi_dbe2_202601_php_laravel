@@ -1,0 +1,276 @@
+{
+  "info": {
+    "_postman_id": "99d55d52-fa9c-4736-a80a-4d62374e7616",
+    "name": "BDE2_LARAVEL_API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37639345"
+  },
+  "item": [
+    {
+      "name": "produtos",
+      "item": [
+        {
+          "name": "show",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8082/api/v1/produtos/49",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "produtos",
+                "49"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8082/api/v1/produtos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "produtos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "store",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nome",
+                  "value": "{{$randomProductName}}",
+                  "type": "text",
+                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                },
+                {
+                  "key": "descricao",
+                  "value": "{{$randomPhrase}}",
+                  "type": "text",
+                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                },
+                {
+                  "key": "qtd_estoque",
+                  "value": "{{$randomInt}}",
+                  "type": "text",
+                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                },
+                {
+                  "key": "preco",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/produtos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "produtos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nome",
+                  "value": "{{$randomProductName}}",
+                  "type": "text",
+                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                },
+                {
+                  "key": "descricao",
+                  "value": "{{$randomPhrase}}",
+                  "type": "text",
+                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                },
+                {
+                  "key": "qtd_estoque",
+                  "value": "{{$randomInt}}",
+                  "type": "text",
+                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                },
+                {
+                  "key": "preco",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/produtos/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "produtos",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "49"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nome",
+                  "value": "{{$randomProductName}}",
+                  "type": "text",
+                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                },
+                {
+                  "key": "descricao",
+                  "value": "{{$randomPhrase}}",
+                  "type": "text",
+                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                },
+                {
+                  "key": "qtd_estoque",
+                  "value": "{{$randomInt}}",
+                  "type": "text",
+                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                },
+                {
+                  "key": "preco",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/produtos/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "produtos",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "49"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "fornecedor",
+      "item": []
+    }
+  ]
+}
