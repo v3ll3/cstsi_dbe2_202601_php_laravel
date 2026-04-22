@@ -46,12 +46,11 @@ class ProdutoController extends Controller
             $novoProduto = $request->all();
             $novoProduto['importado'] = $request->has('importado');
 
-            return response()->json([
-                "data" => [
-                    'produto' => Produto::create($novoProduto),
-                    'msg' => 'Produto criado !!!'
-                ]
-            ], 201);
+            $produto = Produto::create($novoProduto);
+            return new ProdutoResource($produto)
+                    ->additional(["message"=>'Produto criado com sucesso!!'])
+                    ->response()
+                    ->setStatusCode(201,"Produto Criado.");
         } catch (ValidationException $error) {
             return response()->json(
                 [
