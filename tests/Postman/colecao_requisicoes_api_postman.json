@@ -12,19 +12,24 @@
         {
           "name": "index",
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
             "url": {
-              "raw": "{{BASE_URL}}api/v1/produtos",
+              "raw": "{{BASE_URL}}api/v1/produtos/49",
               "host": [
                 "{{BASE_URL}}api"
               ],
               "path": [
                 "v1",
-                "produtos"
+                "produtos",
+                "49"
               ]
             }
           },
@@ -277,6 +282,334 @@
     {
       "name": "fornecedor",
       "item": []
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "INDEX",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Referer",
+                "value": "http://localhost",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "STORE",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d"
+                },
+                {
+                  "key": "password",
+                  "value": "admin123",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "gillgonzales@gmail.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                },
+                {
+                  "key": "surname",
+                  "value": "Gonzales",
+                  "type": "text",
+                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "token",
+          "item": [
+            {
+              "name": "Login Token",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "admin123",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "gillgonzales@gmail.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/token/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "token",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "CSRF-COOKIES",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                  "disabled": true
+                },
+                {
+                  "key": "password",
+                  "value": "admin123",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "gillvelleda@gmail.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                },
+                {
+                  "key": "surname",
+                  "value": "Gonzales",
+                  "type": "text",
+                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/sanctum/csrf-cookie",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "sanctum",
+                "csrf-cookie"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
+                  "pm.collectionVariables.set('XSRF_TOKEN',null)",
+                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "    } else {",
+                  "        const { headers } = res",
+                  "        console.log(headers)",
+                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                  "        console.log(xsrf_cookie)",
+                  "        console.log(xsrf_cookie?.value)",
+                  "",
+                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+                  "",
+                  "        xsrf_token && console.log(xsrf_token)",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                  "disabled": true
+                },
+                {
+                  "key": "password",
+                  "value": "admin123",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "gillvelleda@gmail.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                },
+                {
+                  "key": "surname",
+                  "value": "Gonzales",
+                  "type": "text",
+                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -310,8 +643,16 @@
     },
     {
       "key": "PRODUTO_ID",
+      "value": ""
+    },
+    {
+      "key": "XSRF-TOKEN",
       "value": "",
       "type": "default"
+    },
+    {
+      "key": "XSRF_TOKEN",
+      "value": ""
     }
   ]
 }
