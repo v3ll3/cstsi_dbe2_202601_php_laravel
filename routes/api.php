@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\FornecedorController;
 use App\Http\Controllers\Api\ProdutoController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +16,13 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('fornecedores', FornecedorController::class)
         ->parameters(["fornecedores" => 'fornecedor']);
+
+    Route::apiResource('users', UserController::class)
+        ->only(['store']);
+
+    Route::middleware('web')->group(function () {
+        Route::apiResource('users', UserController::class)
+            ->only(['index', 'show', 'delete', 'update'])->middleware('auth:sanctum');
+        Route::post('login', [LoginController::class, 'login']);
+    });
 });
