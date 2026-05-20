@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginTokensController;
 use App\Http\Controllers\Api\FornecedorController;
 use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,8 +24,12 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('web')->group(function () {
         Route::apiResource('users', UserController::class)
-            ->only(['index', 'show', 'delete', 'update'])
+            ->only(['index', 'show', 'update'])
             ->middleware('auth:sanctum');
+
+        Route::apiResource('users',UserController::class)
+            ->only('destroy')
+            ->middleware(['auth:sanctum','ability:is_admin']);
 
         Route::apiResource('produtos', ProdutoController::class)
             ->except(['index','show'])
