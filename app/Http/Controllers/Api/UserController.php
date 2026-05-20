@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return new UserResource($user);
     }
 
     /**
@@ -46,7 +46,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $permitido = $request->user()->id === $user->id;
+        $status = !$permitido?403:200;
+        return response()->json([
+            "message"=> $permitido
+                        ?"Pode alterar!"
+                        :"Não deveria altetar!!"
+        ],$status);
     }
 
     /**
