@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use SebastianBergmann\CodeCoverage\Driver\Driver;
 
 return [
 
@@ -42,6 +43,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'admin',
+        // ],
+
     ],
 
     /*
@@ -66,6 +73,11 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
+
+        // 'admin' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', Admin::class),
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',
