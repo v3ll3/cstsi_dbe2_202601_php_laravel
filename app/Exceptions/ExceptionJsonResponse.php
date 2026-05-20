@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -15,6 +16,9 @@ class ExceptionJsonResponse extends Exception
     {
         $code = $this->getCode();
         $previous = $this->getPrevious();
+        // dd($previous);
+        if($previous instanceof AuthorizationException)
+              $code = 403;
         $httpStatus = $code >= 400 && $code <= 599 ? $code:500;
         $error_message = ["error" => $this->message];
         if (env('APP_DEBUG'))
