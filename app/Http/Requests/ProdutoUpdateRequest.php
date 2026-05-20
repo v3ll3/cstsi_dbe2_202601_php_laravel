@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Produto;
+use App\Policies\ProdutoPolicy;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ProdutoUpdateRequest extends FormRequest
 {
@@ -12,7 +15,9 @@ class ProdutoUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        // return Gate::authorize('update',[Produto::class,'update'])->allowed();
+        // return Gate::allows('update',[Produto::class,'update']);
+        return $this->user()->can('update',Produto::class);
     }
 
     /**
