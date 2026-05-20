@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -46,13 +47,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $permitido = $request->user()->id === $user->id;
-        $status = !$permitido?403:200;
-        return response()->json([
-            "message"=> $permitido
-                        ?"Pode alterar!"
-                        :"Não deveria altetar!!"
-        ],$status);
+
+        // $permitido = $request->user()->id === $user->id;
+        // $status = !$permitido?403:200;
+        // return response()->json([
+        //     "message"=> $permitido
+        //                 ?"Pode alterar!"
+        //                 :"Não deveria altetar!!"
+        // ],$status);
+        Gate::authorize('update-user',$user);
     }
 
     /**
@@ -60,6 +63,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        return ["message"=>"Pode remover o usuário $user->id!"];
     }
 }
