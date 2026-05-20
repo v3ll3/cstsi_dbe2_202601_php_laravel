@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('update-user',function (User $user, User $model) {
+                // dd([$user,$model]);
+                return $user->id === $model->id;
+        });
+
+        Gate::define('superuser',function(User $user){
+            return $user->is_admin;
+        });
     }
 }
