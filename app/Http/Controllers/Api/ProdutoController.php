@@ -10,7 +10,9 @@ use App\Http\Resources\ProdutoResourceCollection;
 use App\Http\Resources\ProdutoStoredResource;
 use App\Http\Resources\ProdutoUpdatedResource;
 use App\Models\Produto;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProdutoController extends Controller
 {
@@ -52,6 +54,8 @@ class ProdutoController extends Controller
         try{
             $produto->update($request->validated());
             return new ProdutoUpdatedResource($produto);
+        }catch(AuthorizationException $error){
+            throw $error;
         } catch (\Exception $error) {
             return $this->errorHandler("Não foi possível atualizar o Produto!!! Tente mais tarde.",$error);
         }
@@ -60,9 +64,12 @@ class ProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Produto $produto)
+    public function destroy( Produto $produto)
     {
         try{
+            Gate::authorize('delete',$produto);
+            // if(Gate::denies('delete',$produto))
+            //     throw new AuthorizationException("Não permitido!!!");
             $produto->delete();
             return new ProdutoResource($produto)
                     ->additional(['message'=>"Produto removido!!!"]);
