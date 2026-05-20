@@ -23,7 +23,12 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('web')->group(function () {
         Route::apiResource('users', UserController::class)
-            ->only(['index', 'show', 'delete', 'update'])->middleware('auth:sanctum');
+            ->only(['index', 'show', 'delete', 'update'])
+            ->middleware('auth:sanctum');
+
+        Route::apiResource('produtos', ProdutoController::class)
+            ->except(['index','show'])
+            ->middleware('auth:sanctum');
         Route::post('login', [LoginController::class, 'login']);
     });
 
