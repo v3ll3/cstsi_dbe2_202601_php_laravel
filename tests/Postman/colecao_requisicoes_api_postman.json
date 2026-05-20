@@ -22,14 +22,13 @@
               }
             ],
             "url": {
-              "raw": "{{BASE_URL}}api/v1/produtos/49",
+              "raw": "{{BASE_URL}}api/v1/produtos",
               "host": [
                 "{{BASE_URL}}api"
               ],
               "path": [
                 "v1",
-                "produtos",
-                "49"
+                "produtos"
               ]
             }
           },
@@ -64,6 +63,110 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nome",
+                  "value": "{{$randomProductName}}",
+                  "type": "text",
+                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                },
+                {
+                  "key": "descricao",
+                  "value": "{{$randomPhrase}}",
+                  "type": "text",
+                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                },
+                {
+                  "key": "qtd_estoque",
+                  "value": "{{$randomInt}}",
+                  "type": "text",
+                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                },
+                {
+                  "key": "preco",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}api/v1/produtos",
+              "host": [
+                "{{BASE_URL}}api"
+              ],
+              "path": [
+                "v1",
+                "produtos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "store token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "console.log(pm.response.json().data.id)",
+                  "const {data} = pm.response.json()",
+                  "pm.collectionVariables.set('PRODUTO_ID',data?.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text",
+                "disabled": true
               }
             ],
             "body": {
@@ -161,6 +264,16 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text"
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -213,18 +326,39 @@
           "response": []
         },
         {
-          "name": "delete",
+          "name": "delete token",
           "protocolProfileBehavior": {
             "disabledSystemHeaders": {
               "accept": true
             }
           },
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_MANAGER}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [
               {
                 "key": "Accept",
                 "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
                 "type": "text"
               }
             ],
@@ -270,7 +404,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "{{PRODUTO_ID}}"
+                  "value": "2"
                 }
               ]
             }
@@ -318,6 +452,109 @@
                 "api",
                 "v1",
                 "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SHOW",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Referer",
+                "value": "http://localhost",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/users/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE COM TOKEN",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Referer",
+                "value": "http://localhost",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/users/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "3"
+                }
               ]
             }
           },
@@ -375,6 +612,77 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "PUT",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d"
+                },
+                {
+                  "key": "password",
+                  "value": "admin123",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "gillgonzales@gmail.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                },
+                {
+                  "key": "surname",
+                  "value": "Gonzales",
+                  "type": "text",
+                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/users/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "12"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -386,6 +694,21 @@
           "item": [
             {
               "name": "Login Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const {token}  = pm.response.json()",
+                      "console.log(token);",
+                      "pm.collectionVariables.set('TOKEN',token)"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
               "request": {
                 "auth": {
                   "type": "noauth"
@@ -446,11 +769,189 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "Login Token Admin",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const {token}  = pm.response.json()",
+                      "console.log(token);",
+                      "pm.collectionVariables.set('TOKEN',token)"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "admin@example.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/token/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "token",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Token Manager",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const {token}  = pm.response.json()",
+                      "console.log(token);",
+                      "pm.collectionVariables.set('TOKEN_MANAGER',token)"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "manager@example.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/token/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "token",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
         {
           "name": "CSRF-COOKIES",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "console.log(pm.response)",
+                  "const { headers } = pm.response",
+                  "console.log(headers)",
+                  "const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                  "console.log(xsrf_cookie)",
+                  "console.log(xsrf_cookie?.value)",
+                  "",
+                  "const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                  "const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                  "xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -525,7 +1026,7 @@
               "script": {
                 "exec": [
                   "let base_url =  pm.collectionVariables.get('BASE_URL')",
-                  "pm.collectionVariables.set('XSRF_TOKEN',null)",
+                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
                   "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
                   "    if (err) {",
                   "        console.log(err);",
@@ -574,13 +1075,13 @@
                 },
                 {
                   "key": "password",
-                  "value": "admin123",
+                  "value": "password",
                   "type": "text",
                   "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
                 },
                 {
                   "key": "email",
-                  "value": "gillvelleda@gmail.com",
+                  "value": "sterling19@example.org",
                   "type": "text",
                   "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
                 },
@@ -590,6 +1091,198 @@
                   "type": "text",
                   "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
                   "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
+                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
+                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "    } else {",
+                  "        const { headers } = res",
+                  "        console.log(headers)",
+                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                  "        console.log(xsrf_cookie)",
+                  "        console.log(xsrf_cookie?.value)",
+                  "",
+                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+                  "",
+                  "        xsrf_token && console.log(xsrf_token)",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                  "disabled": true
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "admin@example.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8082/api/v1/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "v1",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Manager",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
+                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
+                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "    } else {",
+                  "        const { headers } = res",
+                  "        console.log(headers)",
+                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                  "        console.log(xsrf_cookie)",
+                  "        console.log(xsrf_cookie?.value)",
+                  "",
+                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+                  "",
+                  "        xsrf_token && console.log(xsrf_token)",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Gill",
+                  "type": "text",
+                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                  "disabled": true
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text",
+                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                },
+                {
+                  "key": "email",
+                  "value": "manager@example.com",
+                  "type": "text",
+                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
                 }
               ]
             },
@@ -647,11 +1340,14 @@
     },
     {
       "key": "XSRF-TOKEN",
-      "value": "",
-      "type": "default"
+      "value": ""
     },
     {
-      "key": "XSRF_TOKEN",
+      "key": "TOKEN",
+      "value": ""
+    },
+    {
+      "key": "TOKEN_MANAGER",
       "value": ""
     }
   ]
