@@ -326,7 +326,7 @@
           "response": []
         },
         {
-          "name": "delete token",
+          "name": "delete (token)",
           "protocolProfileBehavior": {
             "disabledSystemHeaders": {
               "accept": true
@@ -404,7 +404,85 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "2"
+                  "value": "{{PRODUTO_ID}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete (cookie)",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Referer",
+                "value": "{{BASE_URL}}",
+                "type": "text"
+              },
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nome",
+                  "value": "{{$randomProductName}}",
+                  "type": "text",
+                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                },
+                {
+                  "key": "descricao",
+                  "value": "{{$randomPhrase}}",
+                  "type": "text",
+                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                },
+                {
+                  "key": "qtd_estoque",
+                  "value": "{{$randomInt}}",
+                  "type": "text",
+                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                },
+                {
+                  "key": "preco",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}api/v1/produtos/:id",
+              "host": [
+                "{{BASE_URL}}api"
+              ],
+              "path": [
+                "v1",
+                "produtos",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{PRODUTO_ID}}"
                 }
               ]
             }
@@ -929,378 +1007,365 @@
           ]
         },
         {
-          "name": "CSRF-COOKIES",
-          "event": [
+          "name": "cookies",
+          "item": [
             {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "console.log(pm.response)",
-                  "const { headers } = pm.response",
-                  "console.log(headers)",
-                  "const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
-                  "console.log(xsrf_cookie)",
-                  "console.log(xsrf_cookie?.value)",
-                  "",
-                  "const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
-                  "const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
-                  "xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
+              "name": "CSRF-COOKIES",
+              "event": [
                 {
-                  "key": "name",
-                  "value": "Gill",
-                  "type": "text",
-                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
-                  "disabled": true
-                },
-                {
-                  "key": "password",
-                  "value": "admin123",
-                  "type": "text",
-                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
-                },
-                {
-                  "key": "email",
-                  "value": "gillvelleda@gmail.com",
-                  "type": "text",
-                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
-                },
-                {
-                  "key": "surname",
-                  "value": "Gonzales",
-                  "type": "text",
-                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
-                  "disabled": true
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "console.log(pm.response)",
+                      "const { headers } = pm.response",
+                      "console.log(headers)",
+                      "const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                      "console.log(xsrf_cookie)",
+                      "console.log(xsrf_cookie?.value)",
+                      "",
+                      "const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                      "const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                      "xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
                 }
-              ]
-            },
-            "url": {
-              "raw": "http://localhost:8082/sanctum/csrf-cookie",
-              "protocol": "http",
-              "host": [
-                "localhost"
               ],
-              "port": "8082",
-              "path": [
-                "sanctum",
-                "csrf-cookie"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
-                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
-                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
-                  "    if (err) {",
-                  "        console.log(err);",
-                  "    } else {",
-                  "        const { headers } = res",
-                  "        console.log(headers)",
-                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
-                  "        console.log(xsrf_cookie)",
-                  "        console.log(xsrf_cookie?.value)",
-                  "",
-                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
-                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
-                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
-                  "",
-                  "        xsrf_token && console.log(xsrf_token)",
-                  "    }",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "X-XSRF-TOKEN",
-                "value": "{{XSRF-TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "name",
-                  "value": "Gill",
-                  "type": "text",
-                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
-                  "disabled": true
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
                 },
-                {
-                  "key": "password",
-                  "value": "password",
-                  "type": "text",
-                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "admin123",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "gillvelleda@gmail.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
                 },
-                {
-                  "key": "email",
-                  "value": "sterling19@example.org",
-                  "type": "text",
-                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
-                },
-                {
-                  "key": "surname",
-                  "value": "Gonzales",
-                  "type": "text",
-                  "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
-                  "disabled": true
+                "url": {
+                  "raw": "http://localhost:8082/sanctum/csrf-cookie",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "sanctum",
+                    "csrf-cookie"
+                  ]
                 }
-              ]
-            },
-            "url": {
-              "raw": "http://localhost:8082/api/v1/login",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8082",
-              "path": [
-                "api",
-                "v1",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login Admin",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
+              },
+              "response": []
             },
             {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
-                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
-                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
-                  "    if (err) {",
-                  "        console.log(err);",
-                  "    } else {",
-                  "        const { headers } = res",
-                  "        console.log(headers)",
-                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
-                  "        console.log(xsrf_cookie)",
-                  "        console.log(xsrf_cookie?.value)",
-                  "",
-                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
-                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
-                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
-                  "",
-                  "        xsrf_token && console.log(xsrf_token)",
-                  "    }",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "X-XSRF-TOKEN",
-                "value": "{{XSRF-TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
+              "name": "Login",
+              "event": [
                 {
-                  "key": "name",
-                  "value": "Gill",
-                  "type": "text",
-                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
-                  "disabled": true
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
                 },
                 {
-                  "key": "password",
-                  "value": "password",
-                  "type": "text",
-                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
-                },
-                {
-                  "key": "email",
-                  "value": "admin@example.com",
-                  "type": "text",
-                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "let base_url =  pm.collectionVariables.get('BASE_URL')",
+                      "pm.collectionVariables.set('XSRF-TOKEN',null)",
+                      "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+                      "    if (err) {",
+                      "        console.log(err);",
+                      "    } else {",
+                      "        const { headers } = res",
+                      "        console.log(headers)",
+                      "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                      "        console.log(xsrf_cookie)",
+                      "        console.log(xsrf_cookie?.value)",
+                      "",
+                      "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                      "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                      "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+                      "",
+                      "        xsrf_token && console.log(xsrf_token)",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
                 }
-              ]
-            },
-            "url": {
-              "raw": "http://localhost:8082/api/v1/login",
-              "protocol": "http",
-              "host": [
-                "localhost"
               ],
-              "port": "8082",
-              "path": [
-                "api",
-                "v1",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login Manager",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "let base_url =  pm.collectionVariables.get('BASE_URL')",
-                  "pm.collectionVariables.set('XSRF-TOKEN',null)",
-                  "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
-                  "    if (err) {",
-                  "        console.log(err);",
-                  "    } else {",
-                  "        const { headers } = res",
-                  "        console.log(headers)",
-                  "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
-                  "        console.log(xsrf_cookie)",
-                  "        console.log(xsrf_cookie?.value)",
-                  "",
-                  "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
-                  "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
-                  "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
-                  "",
-                  "        xsrf_token && console.log(xsrf_token)",
-                  "    }",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "X-XSRF-TOKEN",
-                "value": "{{XSRF-TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "name",
-                  "value": "Gill",
-                  "type": "text",
-                  "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
-                  "disabled": true
+              "request": {
+                "auth": {
+                  "type": "noauth"
                 },
-                {
-                  "key": "password",
-                  "value": "password",
-                  "type": "text",
-                  "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "{{XSRF-TOKEN}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "sterling19@example.org",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
                 },
-                {
-                  "key": "email",
-                  "value": "manager@example.com",
-                  "type": "text",
-                  "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "login"
+                  ]
                 }
-              ]
+              },
+              "response": []
             },
-            "url": {
-              "raw": "http://localhost:8082/api/v1/login",
-              "protocol": "http",
-              "host": [
-                "localhost"
+            {
+              "name": "Login Admin",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
               ],
-              "port": "8082",
-              "path": [
-                "api",
-                "v1",
-                "login"
-              ]
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "{{XSRF-TOKEN}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "admin@example.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Manager",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "let base_url =  pm.collectionVariables.get('BASE_URL')",
+                      "pm.collectionVariables.set('XSRF-TOKEN',null)",
+                      "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+                      "    if (err) {",
+                      "        console.log(err);",
+                      "    } else {",
+                      "        const { headers } = res",
+                      "        console.log(headers)",
+                      "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                      "        console.log(xsrf_cookie)",
+                      "        console.log(xsrf_cookie?.value)",
+                      "",
+                      "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                      "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                      "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+                      "",
+                      "        xsrf_token && console.log(xsrf_token)",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-XSRF-TOKEN",
+                    "value": "{{XSRF-TOKEN}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "manager@example.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
+          ]
         }
       ]
     }
@@ -1313,7 +1378,25 @@
         "packages": {},
         "requests": {},
         "exec": [
-          ""
+          "let base_url =  pm.collectionVariables.get('BASE_URL')",
+          "pm.collectionVariables.set('XSRF-TOKEN',null)",
+          "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+          "    if (err) {",
+          "        console.log(err);",
+          "    } else {",
+          "        const { headers } = res",
+          "        console.log(headers)",
+          "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+          "        console.log(xsrf_cookie)",
+          "        console.log(xsrf_cookie?.value)",
+          "",
+          "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+          "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+          "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+          "",
+          "        xsrf_token && console.log(xsrf_token)",
+          "    }",
+          "});"
         ]
       }
     },
