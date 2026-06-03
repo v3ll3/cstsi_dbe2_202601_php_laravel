@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('fornecedor_id')
+            //     ->references('id_fornecedor')
+            //     ->on('fornecedores')
+            //     ->cascadeOnDelete();
             $table->foreignId('fornecedor_id')
                 ->references('id')
-                ->on('fornecedores')
+                ->on('fornecedores')//especificar a table name
                 ->cascadeOnDelete();
             $table->text('nome');
             $table->text('descricao');

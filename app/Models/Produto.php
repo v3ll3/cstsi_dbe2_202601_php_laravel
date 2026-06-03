@@ -26,6 +26,11 @@ class Produto extends Model
     ];
 
     public function fornecedor(){
+        // return $this->belongsTo(
+        //         Fornecedor::class,
+        //         'fornecedor_id',
+        //         'id_fornecedor'
+        //     );
         return $this->belongsTo(Fornecedor::class);
     }
 
