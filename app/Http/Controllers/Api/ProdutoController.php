@@ -31,7 +31,7 @@ class ProdutoController extends Controller
     public function show(Produto $produto)
     {
         //  return response()->json($produto);
-        return new ProdutoResource($produto);
+        return new ProdutoResource($produto->load('fornecedor.estado.regiao'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ProdutoController extends Controller
         try {
             return new ProdutoStoredResource(Produto::create($request->validated()));
         } catch (\Exception $error) {
-            return $this->errorHandler("Não foi possível criar o Produto!!! Tente mais tarde.",$error);
+            return $this->errorHandler("Não foi possível criar o Produto!!! Tente mais tarde.", $error);
         }
     }
 
@@ -51,30 +51,68 @@ class ProdutoController extends Controller
      */
     public function update(ProdutoUpdateRequest $request, Produto $produto)
     {
-        try{
+        try {
             $produto->update($request->validated());
             return new ProdutoUpdatedResource($produto);
-        }catch(AuthorizationException $error){
+        } catch (AuthorizationException $error) {
             throw $error;
         } catch (\Exception $error) {
-            return $this->errorHandler("Não foi possível atualizar o Produto!!! Tente mais tarde.",$error);
+            return $this->errorHandler("Não foi possível atualizar o Produto!!! Tente mais tarde.", $error);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( Produto $produto)
+    public function destroy(Produto $produto)
     {
-        try{
-            Gate::authorize('delete',$produto);
+        try {
+            Gate::authorize('delete', $produto);
             // if(Gate::denies('delete',$produto))
             //     throw new AuthorizationException("Não permitido!!!");
             $produto->delete();
             return new ProdutoResource($produto)
-                    ->additional(['message'=>"Produto removido!!!"]);
-        }catch (\Exception $error) {
-            return $this->errorHandler("Não foi possível remover o Produto!!! Tente mais tarde.",$error);
+                ->additional(['message' => "Produto removido!!!"]);
+        } catch (\Exception $error) {
+            return $this->errorHandler("Não foi possível remover o Produto!!! Tente mais tarde.", $error);
+        }
+    }
+
+    public function filter(Request $request)
+    {
+
+        // Produto::where('importado',1)
+		// 		->whereBetween('preco',[100,2000])
+		// 		->whereHas('fornecedor',
+		// 					fn($q)=>
+		// 							$q->whereHas('estado',fn($q)=>
+		// 									$q->whereHas('regiao',
+		// 											fn($q)=>
+		// 												$q->where('nome','like','Sul'))))
+		// 		->get()
+
+        try {
+            $importado = $request->has('importado')?$request->importado:0;
+            $min = $request->has('min')?$request->min:1;
+            $max = $request->has('max')?$request->max:99999;
+            $regiao = $request->has('regiao')?$request->regiao:'%%';
+
+            $filteredProducts = Produto::where('importado',$importado)
+                                ->whereBetween('preco',[$min,$max])
+                                ->whereHas('fornecedor',
+                                    fn($q)=>$q->whereHas('estado',
+                                        fn($q)=>$q->whereHas('regiao',
+                                            fn($q)=>$q->where('nome','like',$regiao)
+                                            )
+                                        )
+                                    )
+                                    ->with('fornecedor.estado.regiao')
+                                    ->get();
+
+            return new ProdutoResourceCollection($filteredProducts)
+                    ->additional(['total'=>$filteredProducts->count()]);
+        } catch (\Exception $error) {
+            return $this->errorHandler("Erro ao filtrar produtos!!!", $error);
         }
     }
 }

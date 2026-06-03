@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginTokensController;
 use App\Http\Controllers\Api\FornecedorController;
 use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\Produto;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
+
+    Route::get('produtos/filter/', [ProdutoController::class,'filter']);
+
     Route::apiResource('produtos', ProdutoController::class);
 
     Route::apiResource('fornecedores', FornecedorController::class)
