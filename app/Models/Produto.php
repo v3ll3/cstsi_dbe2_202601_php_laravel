@@ -24,4 +24,8 @@ class Produto extends Model
         'importado'
     ];
 
+    public function fornecedor(){
+        return $this->belongsTo(Fornecedor::class);
+    }
+
 }
