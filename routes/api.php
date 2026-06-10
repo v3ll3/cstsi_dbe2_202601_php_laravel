@@ -27,6 +27,10 @@ Route::prefix('v1')->group(function () {
         ->only(['store']);
 
     Route::middleware('web')->group(function () {
+
+    Route::get('user',[LoginController::class,'user'])->middleware('auth:sanctum');
+    Route::post('logout',[LoginController::class,'logout'])->middleware('auth:sanctum');
+
         Route::apiResource('users', UserController::class)
             ->only(['index', 'show', 'update'])
             ->middleware('auth:sanctum');
@@ -43,5 +47,9 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('token')->group(function ()  {
         Route::post('login',[LoginTokensController::class,'login']);
+        // Route::post('logout',[LoginTokensController::class,'login']);
+        Route::get('user',function (Request $request){
+            return $request->user();
+        })->middleware('auth:sanctum');
     });
 });
