@@ -48,4 +48,13 @@ class Produto extends Model
         );
     }
 
+
+    public function promocoes()
+    {
+        return $this->belongsToMany(Promocao::class)
+                    ->withPivot('desconto')
+                    ->withTimestamps();
+
+    }
+
 }
