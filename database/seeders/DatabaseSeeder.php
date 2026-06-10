@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             RegiaoSeeder::class,
             EstadoSeeder::class,
-            FornecedorSeeder::class
+            FornecedorSeeder::class,
+            PromocaoSeeder::class,
+            ProdutoPromocaoSeeder::class
             ]);
     }
 }
