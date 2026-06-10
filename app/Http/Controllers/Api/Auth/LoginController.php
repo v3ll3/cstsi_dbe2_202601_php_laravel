@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -34,5 +35,21 @@ class LoginController extends Controller
         } catch (Exception $error) {
             return $this->errorHandler('Erro ao realizar login!!', $error);
         }
+    }
+
+    public function user(Request $request)
+    {
+        return $request->user();
+    }
+
+    public function logout(Request $request)
+    {
+        $user =  Auth::guard('web')->user();
+        if (!$user)
+            return response()->json(["message" => "Não autenticado!"], 401);
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response()->json(["message" => "Sessão encerrada!!!"]);
     }
 }
