@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Sleep;
 
 class LoginController extends Controller
 {
@@ -39,6 +40,7 @@ class LoginController extends Controller
 
     public function user(Request $request)
     {
+        // Sleep::for(10)->seconds();
         return $request->user();
     }
 
