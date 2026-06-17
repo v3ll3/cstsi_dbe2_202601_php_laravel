@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('web')->group(function () {
 
+        Route::apiResource('fornecedores', FornecedorController::class)->only('index');
+
         Route::apiResource('users', UserController::class)
             ->only(['store']);
 
@@ -53,5 +55,21 @@ Route::prefix('v1')->group(function () {
         Route::get('user', function (Request $request) {
             return $request->user();
         })->middleware('auth:sanctum');
+
+        #Replicando rotas para tokens
+         Route::apiResource('users', UserController::class)
+            ->only(['store']);
+
+        Route::apiResource('users', UserController::class)
+            ->only(['index', 'show', 'update'])
+            ->middleware('auth:sanctum');
+
+        Route::apiResource('users', UserController::class)
+            ->only('destroy')
+            ->middleware(['auth:sanctum', 'ability:is_admin']);
+
+        Route::apiResource('produtos', ProdutoController::class)
+            ->except(['index', 'show'])
+            ->middleware('auth:sanctum');
     });
 });
