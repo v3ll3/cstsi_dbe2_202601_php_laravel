@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
+// use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Znck\Eloquent\Relations\BelongsToThrough;
 
 // #[Fillable(['nome', 'descricao', 'qtd_estoque', 'preco', 'importado'])]
 
@@ -25,7 +28,8 @@ class Produto extends Model
         'fornecedor_id'
     ];
 
-    public function fornecedor(){
+    public function fornecedor():BelongsTo
+    {
         // return $this->belongsTo(
         //         Fornecedor::class,
         //         'fornecedor_id',
@@ -34,27 +38,31 @@ class Produto extends Model
         return $this->belongsTo(Fornecedor::class);
     }
 
-     public function regiao(){
+    public function regiao():BelongsToThrough
+    {
         return $this->belongsToThrough(
             Regiao::class,
             [
                 Estado::class,
                 Fornecedor::class
             ],
-            foreignKeyLookup:[
-                Regiao::class=>'regiao_id',
-                Fornecedor::class=>'fornecedor_id'
+            foreignKeyLookup: [
+                Regiao::class => 'regiao_id',
+                Fornecedor::class => 'fornecedor_id'
             ]
         );
     }
 
 
-    public function promocoes()
+    public function promocoes():BelongsToMany
     {
         return $this->belongsToMany(Promocao::class)
-                    ->withPivot('desconto')
-                    ->withTimestamps();
-
+            ->withPivot('desconto')
+            ->withTimestamps();
     }
 
+    public function links(): MorphMany
+    {
+        return $this->morphMany(Link::class, 'model');
+    }
 }
