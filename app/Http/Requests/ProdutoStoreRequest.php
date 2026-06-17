@@ -31,7 +31,8 @@ class ProdutoStoreRequest extends FormRequest
             'qtd_estoque' => "required | integer",
             'preco' => "required | numeric",
             'importado' => "nullable | boolean",
-            'fornecedor_id' =>"required | integer"
+            'fornecedor_id' =>"required | integer",
+            'imagem'=>"nullable | image"
         ];
     }
 
