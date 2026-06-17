@@ -10,6 +10,7 @@ use App\Http\Resources\ProdutoResourceCollection;
 use App\Http\Resources\ProdutoStoredResource;
 use App\Http\Resources\ProdutoUpdatedResource;
 use App\Models\Produto;
+use App\Repositories\ProdutoRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +23,7 @@ class ProdutoController extends Controller
     public function index()
     {
         // return response()->json(Produto::all());
-        return new ProdutoResourceCollection(Produto::all());
+        return new ProdutoResourceCollection(Produto::all()->load('links'));
     }
 
     /**
@@ -31,7 +32,7 @@ class ProdutoController extends Controller
     public function show(Produto $produto)
     {
         //  return response()->json($produto);
-        return new ProdutoResource($produto->load('fornecedor.estado.regiao'));
+        return new ProdutoResource($produto->load('links','fornecedor.estado.regiao'));
     }
 
     /**
@@ -40,7 +41,7 @@ class ProdutoController extends Controller
     public function store(ProdutoStoreRequest $request)
     {
         try {
-            return new ProdutoStoredResource(Produto::create($request->validated()));
+            return new ProdutoStoredResource(ProdutoRepository::store($request->validated()));
         } catch (\Exception $error) {
             return $this->errorHandler("Não foi possível criar o Produto!!! Tente mais tarde.", $error);
         }
