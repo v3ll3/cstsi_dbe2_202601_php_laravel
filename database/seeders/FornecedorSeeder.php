@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Fornecedor;
+use App\Models\Link;
 use App\Models\Produto;
+use App\Models\Promocao;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +18,21 @@ class FornecedorSeeder extends Seeder
     public function run(): void
     {
         Fornecedor::factory(10)
-        ->has(Produto::factory(50))
-        ->create();
+            ->has(
+                Produto::factory(50)
+                    ->hasAttached(
+                        Promocao::factory()->count(3),
+                        [
+                            'created_at' => Carbon::now()->toDateTimeString(),
+                            'updated_at' => Carbon::now()->toDateTimeString(),
+                            'desconto' => fake()->numberBetween(10, 50)
+                        ],
+                        'promocoes'
+                    )
+                    ->hasLinks(2)
+            )
+            ->has(Link::factory(2))
+            ->hasProdutos(2)
+            ->create();
     }
 }
