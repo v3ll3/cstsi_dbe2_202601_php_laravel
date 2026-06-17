@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             EstadoSeeder::class,
             FornecedorSeeder::class,
             PromocaoSeeder::class,
-            ProdutoPromocaoSeeder::class
-            ]);
+            // ProdutoPromocaoSeeder::class,
+            LinkSeeder::class
+        ]);
     }
 }
