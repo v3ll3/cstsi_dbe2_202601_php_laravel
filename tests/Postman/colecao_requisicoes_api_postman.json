@@ -35,6 +35,61 @@
           "response": []
         },
         {
+          "name": "filter",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}api/v1/produtos/filter/?nome=expli",
+              "host": [
+                "{{BASE_URL}}api"
+              ],
+              "path": [
+                "v1",
+                "produtos",
+                "filter",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "regiao",
+                  "value": "Sul",
+                  "disabled": true
+                },
+                {
+                  "key": "importado",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "max",
+                  "value": "20000",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "min",
+                  "value": "10",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "nome",
+                  "value": "expli"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "store",
           "event": [
             {
@@ -101,6 +156,12 @@
                   "value": "{{$randomPrice}}",
                   "type": "text",
                   "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                },
+                {
+                  "key": "fornecedor_id",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "53bd7d8f-48a8-4cd6-b492-e8e25f38313a"
                 }
               ]
             },
@@ -145,7 +206,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{TOKEN}}",
+                  "value": "{{TOKEN_ADMIN}}",
                   "type": "string"
                 }
               ]
@@ -160,7 +221,8 @@
               {
                 "key": "X-XSRF-TOKEN",
                 "value": "{{XSRF-TOKEN}}",
-                "type": "text"
+                "type": "text",
+                "disabled": true
               },
               {
                 "key": "Referer",
@@ -170,41 +232,49 @@
               }
             ],
             "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
+              "mode": "formdata",
+              "formdata": [
                 {
                   "key": "nome",
                   "value": "{{$randomProductName}}",
-                  "type": "text",
-                  "uuid": "4f66523e-1756-446c-b800-67755b829beb"
+                  "type": "text"
                 },
                 {
                   "key": "descricao",
                   "value": "{{$randomPhrase}}",
-                  "type": "text",
-                  "uuid": "87b05a41-2270-4f42-8df9-93c7a3dc1687"
+                  "type": "text"
                 },
                 {
                   "key": "qtd_estoque",
                   "value": "{{$randomInt}}",
-                  "type": "text",
-                  "uuid": "0e9a425c-621c-4c69-9c99-ae9a0307df3b"
+                  "type": "text"
                 },
                 {
                   "key": "preco",
                   "value": "{{$randomPrice}}",
-                  "type": "text",
-                  "uuid": "f4ef2f47-5073-467e-9848-0441781f3abb"
+                  "type": "text"
+                },
+                {
+                  "key": "fornecedor_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "imagem",
+                  "type": "file",
+                  "uuid": "e295030c-664f-4afb-a515-ae851a04ae5c",
+                  "src": "/home/gillgonzales/Pictures/placa-de-video-rx-7600-gaming-oc-8g-radeon-gigabyte-8gb-gddr6-128bits-rgb-gv-r76gaming-oc-8gd_1698435450_m.webp"
                 }
               ]
             },
             "url": {
-              "raw": "{{BASE_URL}}api/v1/produtos",
+              "raw": "{{BASE_URL}}api/v1/token/produtos",
               "host": [
                 "{{BASE_URL}}api"
               ],
               "path": [
                 "v1",
+                "token",
                 "produtos"
               ]
             }
@@ -338,7 +408,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{TOKEN_MANAGER}}",
+                  "value": "{{TOKEN_ADMIN}}",
                   "type": "string"
                 }
               ]
@@ -492,8 +562,33 @@
       ]
     },
     {
-      "name": "fornecedor",
-      "item": []
+      "name": "fornecedores",
+      "item": [
+        {
+          "name": "INDEX",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}api/v1/fornecedores",
+              "host": [
+                "{{BASE_URL}}api"
+              ],
+              "path": [
+                "v1",
+                "fornecedores"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "users",
@@ -520,12 +615,10 @@
               "urlencoded": []
             },
             "url": {
-              "raw": "http://localhost:8082/api/v1/users",
-              "protocol": "http",
+              "raw": "{{BASE_URL}}}/api/v1/users",
               "host": [
-                "localhost"
+                "{{BASE_URL}}}"
               ],
-              "port": "8082",
               "path": [
                 "api",
                 "v1",
@@ -645,31 +738,37 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "X-XSRF-TOKEN",
+                "value": "{{XSRF-TOKEN}}",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "urlencoded",
               "urlencoded": [
                 {
                   "key": "name",
-                  "value": "Gill",
+                  "value": "{{$randomUserName}}",
                   "type": "text",
                   "uuid": "07a69850-a05f-4389-a4df-16927f31a95d"
                 },
                 {
                   "key": "password",
-                  "value": "admin123",
+                  "value": "password",
                   "type": "text",
                   "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
                 },
                 {
                   "key": "email",
-                  "value": "gillgonzales@gmail.com",
+                  "value": "{{$randomEmail}}",
                   "type": "text",
                   "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
                 },
                 {
                   "key": "surname",
-                  "value": "Gonzales",
+                  "value": "{{$randomUserName}}",
                   "type": "text",
                   "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2"
                 }
@@ -857,7 +956,7 @@
                     "exec": [
                       "const {token}  = pm.response.json()",
                       "console.log(token);",
-                      "pm.collectionVariables.set('TOKEN',token)"
+                      "pm.collectionVariables.set('TOKEN_ADMIN',token)"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -876,6 +975,11 @@
                     "value": "",
                     "type": "text",
                     "disabled": true
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
                   }
                 ],
                 "body": {
@@ -910,14 +1014,11 @@
                   ]
                 },
                 "url": {
-                  "raw": "http://localhost:8082/api/v1/token/login",
-                  "protocol": "http",
+                  "raw": "{{BASE_URL}}api/v1/token/login",
                   "host": [
-                    "localhost"
+                    "{{BASE_URL}}api"
                   ],
-                  "port": "8082",
                   "path": [
-                    "api",
                     "v1",
                     "token",
                     "login"
@@ -1003,6 +1104,14 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "user",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
             }
           ]
         },
@@ -1083,6 +1192,86 @@
                   "path": [
                     "sanctum",
                     "csrf-cookie"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "console.log(pm.response)",
+                      "const { headers } = pm.response",
+                      "console.log(headers)",
+                      "const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+                      "console.log(xsrf_cookie)",
+                      "console.log(xsrf_cookie?.value)",
+                      "",
+                      "const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+                      "const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+                      "xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "Gill",
+                      "type": "text",
+                      "uuid": "07a69850-a05f-4389-a4df-16927f31a95d",
+                      "disabled": true
+                    },
+                    {
+                      "key": "password",
+                      "value": "admin123",
+                      "type": "text",
+                      "uuid": "dd4e569f-9527-43fb-bb8d-8576a8454a02"
+                    },
+                    {
+                      "key": "email",
+                      "value": "gillvelleda@gmail.com",
+                      "type": "text",
+                      "uuid": "f135e668-3704-4cf9-9dad-78fe37b8e621"
+                    },
+                    {
+                      "key": "surname",
+                      "value": "Gonzales",
+                      "type": "text",
+                      "uuid": "bf194227-00ed-4cc8-9c8e-2e48e71fddb2",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8082/api/v1/user",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8082",
+                  "path": [
+                    "api",
+                    "v1",
+                    "user"
                   ]
                 }
               },
@@ -1378,25 +1567,25 @@
         "packages": {},
         "requests": {},
         "exec": [
-          "let base_url =  pm.collectionVariables.get('BASE_URL')",
-          "pm.collectionVariables.set('XSRF-TOKEN',null)",
-          "pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
-          "    if (err) {",
-          "        console.log(err);",
-          "    } else {",
-          "        const { headers } = res",
-          "        console.log(headers)",
-          "        const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
-          "        console.log(xsrf_cookie)",
-          "        console.log(xsrf_cookie?.value)",
+          "// let base_url =  pm.collectionVariables.get('BASE_URL')",
+          "// pm.collectionVariables.set('XSRF-TOKEN',null)",
+          "// pm.sendRequest(`${base_url}sanctum/csrf-cookie`, (err, res) => {",
+          "//     if (err) {",
+          "//         console.log(err);",
+          "//     } else {",
+          "//         const { headers } = res",
+          "//         console.log(headers)",
+          "//         const [xsrf_cookie] = headers.filter(h => h.key == 'Set-Cookie' && h.value.includes('XSRF'))",
+          "//         console.log(xsrf_cookie)",
+          "//         console.log(xsrf_cookie?.value)",
           "",
-          "        const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
-          "        const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
-          "        xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
+          "//         const [xsrf_cookie_options] = xsrf_cookie?.value.split(';');",
+          "//         const xsrf_token = xsrf_cookie_options.replace('%3D', '').replace('XSRF-TOKEN=', '')",
+          "//         xsrf_token && pm.collectionVariables.set(\"XSRF-TOKEN\", xsrf_token);",
           "",
-          "        xsrf_token && console.log(xsrf_token)",
-          "    }",
-          "});"
+          "//         xsrf_token && console.log(xsrf_token)",
+          "//     }",
+          "// });"
         ]
       }
     },
@@ -1414,10 +1603,6 @@
   ],
   "variable": [
     {
-      "key": "BASE_URL",
-      "value": ""
-    },
-    {
       "key": "PRODUTO_ID",
       "value": ""
     },
@@ -1431,6 +1616,22 @@
     },
     {
       "key": "TOKEN_MANAGER",
+      "value": ""
+    },
+    {
+      "key": "TOKEN_ADMIN",
+      "value": ""
+    },
+    {
+      "key": "LOCAL_URL",
+      "value": ""
+    },
+    {
+      "key": "SERVER_URL",
+      "value": ""
+    },
+    {
+      "key": "BASE_URL",
       "value": ""
     }
   ]
