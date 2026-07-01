@@ -16,7 +16,6 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
-        "crypto-js": "^4.2.0",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
         "react-router": "^8.1.0",
