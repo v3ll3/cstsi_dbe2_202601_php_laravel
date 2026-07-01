@@ -9,7 +9,6 @@ console.error(VEIRIFY_USER_INTERVAL)
 
 const verifyUser = async () => {
     try {
-        await getCsrfCookie()
         const { data } = await axiosClient.get('/user')
         if (!data) throw new Error("Erro ao recuperar usuário!")
         console.log({ data })
@@ -98,6 +97,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logOut = async () => {
+        await getCsrfCookie()
         await axiosClient.post('logout')
         setIsLogged(false)
         clearAuthStorages()
