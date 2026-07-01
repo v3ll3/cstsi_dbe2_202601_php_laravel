@@ -24,7 +24,7 @@ Route::prefix('v1')->group(function () {
         ->parameters(["fornecedores" => 'fornecedor']);
 
 
-
+    Route::get('user', [LoginController::class, 'user'])->middleware('auth:sanctum');
     Route::middleware('web')->group(function () {
 
         Route::apiResource('fornecedores', FornecedorController::class)->only('index');
@@ -32,7 +32,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('users', UserController::class)
             ->only(['store']);
 
-        Route::get('user', [LoginController::class, 'user'])->middleware('auth:sanctum');
         Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
         Route::apiResource('users', UserController::class)
