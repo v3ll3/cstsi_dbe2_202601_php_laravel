@@ -29,7 +29,7 @@ export default function Login() {
       console.log({ data });
       alert("Usuário logado");
       setToken(data.token);
-      setUser(data.user);
+      setUser(data.data);
       navigate("/dashboard");
     } catch (error) {
       console.dir({ error });
