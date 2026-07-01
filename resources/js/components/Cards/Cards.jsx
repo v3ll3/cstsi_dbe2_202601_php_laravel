@@ -4,7 +4,7 @@ import { CardContainer, CardImage, CardMain } from "./card.styled";
 import thumbImage from "../../assets/img/cards-thumbnail.jpg"
 
 export const Cards = ({ item }) => {
-    const srcImage = item?.media?.length?item.media[0].source:thumbImage;
+    const srcImage = item?.media?.length?item?.media[0]?.source:thumbImage;
   return (
     <CardContainer>
       <Link to={`/produto/${item.id}`}>

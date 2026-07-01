@@ -30,7 +30,7 @@ const ModalRemoveProduto = ({ close, removedProduto }) => {
           id="image-tag"
           src={
             removedProduto?.media?.length > 0
-              ? removedProduto?.media[0]
+              ? removedProduto?.media[0]?.source
               : imageUrl
           }
         />

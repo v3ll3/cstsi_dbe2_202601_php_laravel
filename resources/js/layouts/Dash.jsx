@@ -21,7 +21,7 @@ export default function Dash() {
     <DefaultStyled>
         <header>
           <DefaultLogo>
-            <Link href="/">
+            <Link to="/">
               <img src={appLogo} />
             </Link>
           </DefaultLogo>

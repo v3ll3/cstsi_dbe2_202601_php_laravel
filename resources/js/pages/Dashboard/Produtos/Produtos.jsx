@@ -31,7 +31,7 @@ const Produtos = () => {
   }, [])
 
   return (<ProdutoDashStyled>
-    <h2>Produtos Dashboard</h2>
+    <h2>Produtos</h2>
     <div>
       <Link to={"/dashboard/produtos/create"}>
         <button className={"btn"}>

@@ -27,8 +27,7 @@ export const ModalStyled = styled.div`
   height: auto;
   font-weight:bold;
   color: var(--second-color);
-  max-height: 700px;
-  padding: 5vh;
+  padding: 2vh;
   padding-top: .5vh;
   /* left: calc(50% - 125px); */
   /* bottom: 70px; */
@@ -61,10 +60,13 @@ export const ModalStyled = styled.div`
 
   @media (min-width: 480px) {
     width: 70vw;
+    padding: 5vh;
+    padding-top: 1vh;
   }
 
   @media (min-width: 768px) {
     width: 65vw;
+    padding-top: 2vh;
   }
 
   @media (prefers-color-scheme: dark) {

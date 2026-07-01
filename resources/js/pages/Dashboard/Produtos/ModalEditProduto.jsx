@@ -137,7 +137,7 @@ const ModalEditProduto = () => {
             <img id="image-tag"
               src={
                 editingProduto?.media?.length > 0
-                  ? editingProduto?.media[0]
+                  ? editingProduto?.media[0]?.source
                   : imageUrl
               }
               ref={inputImageRef}

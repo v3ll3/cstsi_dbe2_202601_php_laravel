@@ -79,7 +79,7 @@ const ModalAddProduto = () => {
     const message = await addProduto(produtoFormData)
 
     setMessage(message)
-    setTimeout(close, 3000)
+    setTimeout(close, 2000)
   }
 
   useEffect(() => {

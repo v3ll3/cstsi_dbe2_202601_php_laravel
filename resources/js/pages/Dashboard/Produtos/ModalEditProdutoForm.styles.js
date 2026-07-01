@@ -6,13 +6,13 @@ export const FormContainer = styled.form`
 
 export const InputFileImage = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
 
     img{
         display: block;
-        width: 12rem;  
+        width: 12rem;
         height: 10rem;
         object-fit: scale-down;
         margin-right: 10px;
@@ -21,22 +21,35 @@ export const InputFileImage = styled.div`
     input[type="file"]{
         margin-top: 15px;
         display: inline;
-        width: 50%;
+        width: 100%;
+    }
+
+    @media (min-width: 640px) {
+         flex-direction: row;
+          input[type="file"]{
+            width: 70%;
+          }
     }
 `;
 
 export const InputsNumbers = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
     input[type="number"]{
-        width: 45%;
         margin-left: 10px;
     }
    label{
         margin-left: 10px;
     }
+
+     @media (min-width: 640px) {
+         flex-direction: row;
+         input[type="number"]{
+            width: 45%;
+        }
+     }
 `;
 
 
