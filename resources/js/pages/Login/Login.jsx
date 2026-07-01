@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { useRef, useState } from "react";
-import axiosClient from "../../utils/axios-client";
+// import axiosClient from "../../utils/axios-client";
 import { LoginStyled } from "./login.styled";
 
 export default function Login() {
-  const { setToken, setUser } = useAuthContext();
+  const { auth } = useAuthContext();
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,14 +22,7 @@ export default function Login() {
     };
     console.log({ payload });
     try {
-      const response = await axiosClient.post("/token/login", payload);
-      if (response?.status !== 200) throw new Error(response.data);
-      console.log(response);
-      const { data } = response;
-      console.log({ data });
-      alert("Usuário logado");
-      setToken(data.token);
-      setUser(data.data);
+      await auth(payload)
       navigate("/dashboard");
     } catch (error) {
       console.dir({ error });
