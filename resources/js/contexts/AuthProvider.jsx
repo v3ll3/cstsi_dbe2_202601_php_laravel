@@ -1,107 +1,132 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect, useRef } from "react"
-import axiosClient from "../utils/axios-client";
-import { manipulateLocalStorage, } from "../utils/encrypt-storage";
-import useAuthStorage from "../hooks/useAuthStorage";
+import  axiosClient, {API_HOST} from "../utils/axios-client";
 
+const VEIRIFY_USER_INTERVAL = import.meta.env.VITE_VEIRIFY_USER_INTERVAL || 60000
 
-const REFRESH_TOKEN_INTERVAL = 1000 * 60 * 1; // 1 minutes
+console.error(VEIRIFY_USER_INTERVAL)
 
-manipulateLocalStorage()
+const verifyUser = async () => {
+    try {
+        const { data } = await axiosClient.get('/user')
+        if (!data) throw new Error("Erro ao recuperar usuário!")
+        console.log({ data })
+        return data;
+    } catch (error) {
+        const { response } = error
+        response?.status === 401 && clearAuthStorages()
+        console.error('Error:', error)
+        throw error;
+    }
+}
 
+const verifyLocalStorage = () => {
+    try {
+        const localStoragteUser = JSON.parse(localStorage.getItem('CURRENT_USER'));
+        if (localStoragteUser?.name) return localStoragteUser
+        return false
+    } catch (error) {
+        console.error(error)
+        localStorage.removeItem('CURRENT_USER')
+        return false
+    }
+}
 
-const AuthContext = createContext({
-    user: {},
-    token: null,
-    setUser: () => { },
-    setToken: () => { },
-    verifyLogin: () => { },
-    logOut: () => { }
-})
+const clearAuthStorages = () => {
+    console.log('clear')
+    console.log('CURRENT_USER')
+    localStorage.removeItem('CURRENT_USER');
+}
+
+const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
 
-    const [CURRENT_USER, ACCESS_TOKEN, clearAuthStorages] = useAuthStorage()
+    const [user, _setUser] = useState(null)
 
-    const [user, _setUser] = useState(() => JSON.parse(localStorage.getDecryptedItem(CURRENT_USER)))
-    const [token, _setToken] = useState(() => localStorage.getDecryptedItem(ACCESS_TOKEN))
+    const [isLogged, setIsLogged] = useState(() => {
+        if (verifyLocalStorage())
+            return verifyUser()
+                .then(user => {
+                    setUser(user)
+                    setIsLogged(true)
+                }).catch(error => {
+                    console.error(error)
+                    setIsLogged(false)
+                })
+        return false;
+    })
 
-     const intervalLogin = useRef(null);
+    const intervalLogin = useRef(null);
 
     const setUser = (user) => {
-        user && localStorage.setEncryptedItem(CURRENT_USER, JSON.stringify(user))
+        if(user){
+            const {name, email} = user
+            localStorage.setItem('CURRENT_USER', JSON.stringify({name,email}))
+        }else clearAuthStorages();
         _setUser(user)
     }
 
-    const setToken = (tokenNovo) => {
-        console.log({ ACCESS_TOKEN, tokenNovo })
-        tokenNovo && localStorage.setEncryptedItem(ACCESS_TOKEN, tokenNovo)
-        _setToken(tokenNovo)
+    const auth = async (credentials) => {
+        try {
+            const csrfUrl = API_HOST + `/sanctum/csrf-cookie`
+            console.log({ csrfUrl })
+            await axiosClient.get(csrfUrl)
+            const response = await axiosClient.post("/login", credentials);
+            if (response?.status !== 200) throw new Error(response.data);
+            const { data } = response;
+            console.log({ data });
+            setUser(data.data);
+            setIsLogged(true);
+        } catch (error) {
+            setIsLogged(false)
+            throw error
+        }
     }
 
     const verifyLogin = async () => {
         try {
-            const { token, user } = await refreshToken()
+            const user = await verifyUser()
             setUser(user)
-            setToken(token)
             return true;
         } catch (error) {
-            setToken(null)
             setUser(null)
+            setIsLogged(false)
             console.error(error)
             return false;
         }
     }
 
-    const logOut = () => {
+    const logOut = async () => {
+        await axiosClient.post('logout')
+        setIsLogged(false)
         clearAuthStorages()
         setUser(null)
-        setToken(null)
     }
-
-    const refreshToken = async () => {
-        try {
-            const { data } = await axiosClient.get('/token/refresh')
-            if (!data) throw new Error("Erro ao recuperar novo token!"); 7
-            console.log({ data })
-            return data;
-        } catch (error) {
-            const { response } = error;
-            response?.status === 401 && clearAuthStorages();
-            console.error('Error:', error);
-            throw error;
-        }
-    }
-
-    axiosClient.interceptors.request.use((config) => {
-        const accessToken = localStorage.getDecryptedItem(ACCESS_TOKEN)
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
-        return config;
-    });
 
     useEffect(() => {
-        console.log({ user });
-        if (!intervalLogin?.current && user && token)
+        console.log(user)
+        if (user) {
             intervalLogin.current = setInterval(async () => {
                 console.log("Verificando login...");
-                verifyLogin();
-            }, REFRESH_TOKEN_INTERVAL)
+                console.log(user)
+                const isLogged = await verifyLogin();
+                setIsLogged(isLogged);
+                !isLogged && clearAuthStorages();
+            }, VEIRIFY_USER_INTERVAL)
+        }
+
         return () => {
             clearInterval(intervalLogin.current);
-            intervalLogin.current = null;
         }
-    }, [token]);
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{
             user,
-            token,
-            setUser,
-            setToken,
-            verifyLogin,
+            isLogged,
+            auth,
             logOut,
         }}>
             {children}
