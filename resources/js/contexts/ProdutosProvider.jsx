@@ -36,7 +36,7 @@ const ProdutosProvider = ({ children }) => {
       formDataProduto['fornecedor_id'] = 1;
       console.log(`Cadastrar novo produto:`, formDataProduto);
 
-      const { data } = await axiosClient.post(`/token/produtos`, formDataProduto, {
+      const { data } = await axiosClient.post(`/produtos`, formDataProduto, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -63,7 +63,7 @@ const ProdutosProvider = ({ children }) => {
       formDataProduto.append("_method", "put");
 
       const { data } = await axiosClient.post(
-        `/tokens/produtos/${id}`,
+        `/produtos/${id}`,
         formDataProduto,
         {
           headers: {
@@ -86,7 +86,7 @@ const ProdutosProvider = ({ children }) => {
 
   const deleteProduto = async (id) => {
     alert(`Remove Produto id: ${id}`);
-    const { data } = await axiosClient.delete(`/tokens/produtos/${id}`);
+    const { data } = await axiosClient.delete(`/produtos/${id}`);
     const { message } = data;
     console.log({ message });
     loadProdutos();
