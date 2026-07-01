@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect, useRef } from "react"
-import  axiosClient, {API_HOST} from "../utils/axios-client";
+import  axiosClient, {getCsrfCookie} from "../utils/axios-client";
 
 const VEIRIFY_USER_INTERVAL = import.meta.env.VITE_VEIRIFY_USER_INTERVAL || 60000
 
@@ -9,6 +9,7 @@ console.error(VEIRIFY_USER_INTERVAL)
 
 const verifyUser = async () => {
     try {
+        await getCsrfCookie()
         const { data } = await axiosClient.get('/user')
         if (!data) throw new Error("Erro ao recuperar usuário!")
         console.log({ data })
@@ -70,9 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     const auth = async (credentials) => {
         try {
-            const csrfUrl = API_HOST + `/sanctum/csrf-cookie`
-            console.log({ csrfUrl })
-            await axiosClient.get(csrfUrl)
+            await getCsrfCookie()
             const response = await axiosClient.post("/login", credentials);
             if (response?.status !== 200) throw new Error(response.data);
             const { data } = response;
