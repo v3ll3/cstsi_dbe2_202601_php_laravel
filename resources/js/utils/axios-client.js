@@ -26,12 +26,7 @@ axiosClient.interceptors.response.use(
 export const getCsrfCookie = async ()=>{
 const csrfUrl = API_HOST + `/sanctum/csrf-cookie`
       console.log({ csrfUrl })
-      await axiosClient.get(csrfUrl, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Referer":API_HOST
-        }
-     })
+      await axiosClient.get(csrfUrl)
 }
 
 export default axiosClient;
