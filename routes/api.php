@@ -24,8 +24,8 @@ Route::prefix('v1')->group(function () {
         ->parameters(["fornecedores" => 'fornecedor']);
 
 
-    Route::get('user', [LoginController::class, 'user'])->middleware('auth:sanctum');
-    Route::middleware('web')->group(function () {
+
+    // Route::middleware('web')->group(function () {
 
         Route::apiResource('fornecedores', FornecedorController::class)->only('index');
 
@@ -45,8 +45,10 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('produtos', ProdutoController::class)
             ->except(['index', 'show'])
             ->middleware('auth:sanctum');
+
         Route::post('login', [LoginController::class, 'login']);
-    });
+        Route::get('user', [LoginController::class, 'user'])->middleware('auth:sanctum');
+    // });
 
     Route::prefix('token')->group(function () {
         Route::post('login', [LoginTokensController::class, 'login']);
