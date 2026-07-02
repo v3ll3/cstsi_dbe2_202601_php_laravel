@@ -36,7 +36,6 @@ const ProdutosProvider = ({ children }) => {
       formDataProduto['fornecedor_id'] = 1;
       console.log(`Cadastrar novo produto:`, formDataProduto);
 
-      await getCsrfCookie()
       const { data } = await axiosClient.post(`/produtos`, formDataProduto, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -62,7 +61,6 @@ const ProdutosProvider = ({ children }) => {
       console.log(`Atualizar Produto id: ${id}`, { formDataProduto });
 
       formDataProduto.append("_method", "put");
-      await getCsrfCookie()
       const { data } = await axiosClient.post(
         `/produtos/${id}`,
         formDataProduto,
@@ -87,7 +85,6 @@ const ProdutosProvider = ({ children }) => {
 
   const deleteProduto = async (id) => {
     alert(`Remove Produto id: ${id}`);
-    await getCsrfCookie()
     const { data } = await axiosClient.delete(`/produtos/${id}`);
     const { message } = data;
     console.log({ message });
