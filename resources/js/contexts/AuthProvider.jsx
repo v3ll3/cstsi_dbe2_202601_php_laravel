@@ -97,11 +97,19 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logOut = async () => {
-        await getCsrfCookie()
-        await axiosClient.post('logout')
-        setIsLogged(false)
-        clearAuthStorages()
-        setUser(null)
+        try{
+            await getCsrfCookie()
+            await axiosClient.post('logout')
+        } catch (error) {
+            const { response } = error
+            response?.status === 401 && clearAuthStorages()
+            console.error('Error:', error)
+            throw error;
+        }finally{
+            setIsLogged(false)
+            clearAuthStorages()
+            setUser(null)
+        }
     }
 
     useEffect(() => {
