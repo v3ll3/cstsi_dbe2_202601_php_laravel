@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
 
 
 
-    Route::middleware('web')->group(function () {
+    // Route::middleware('web')->group(function () {
 
         Route::apiResource('fornecedores', FornecedorController::class)->only('index');
 
@@ -48,7 +48,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('login', [LoginController::class, 'login']);
         Route::get('user', [LoginController::class, 'user'])->middleware('auth:sanctum');
-    });
+    // });
 
     Route::prefix('token')->group(function () {
         Route::post('login', [LoginTokensController::class, 'login']);
