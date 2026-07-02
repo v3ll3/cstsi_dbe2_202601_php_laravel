@@ -29,6 +29,7 @@ class LoginController extends Controller
         try {
             $credentials = $request->validated();
             $user = $this->authenticate($credentials);
+            $request->session()->regenerate();
             if (!$user)
                 throw new Exception("Dados inválidos!!");
             return new UserResource($user)
