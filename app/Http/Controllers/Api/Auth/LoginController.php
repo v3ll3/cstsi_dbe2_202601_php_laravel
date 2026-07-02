@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     public function user(Request $request)
     {
-        Sleep::for(5)->seconds();
+        // Sleep::for(10)->seconds();
         return $request->user();
     }
 
